@@ -361,7 +361,7 @@ async function init() {
     }
     let installCommands = `cd ${root} && \
     ${addPkgsCommand} @dotenvx/dotenvx @novice1/api-doc-generator@0 @novice1/frame@0.2 @novice1/logger @novice1/routing tslib && \
-    ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint && \
+    ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/cors @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint && \
     ${addPkgsCommand} joi`;
     if (template === 'wide') {
         installCommands += ` && \
