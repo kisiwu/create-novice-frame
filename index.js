@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 /**
  * Heavily inspired by create-vite
  */
