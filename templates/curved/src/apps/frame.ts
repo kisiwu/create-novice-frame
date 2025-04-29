@@ -15,7 +15,7 @@ export const frame = new Frame({
     ]
 })
 
-// 404 - 500
 frame
-    .use(httpNotFound)
-    .useError(httpError)
+    .use(httpNotFound) // 404
+    .useError(httpError) // 500
+    .disable('x-powered-by')

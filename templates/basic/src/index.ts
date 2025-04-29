@@ -5,6 +5,9 @@ import { PORT } from './config/app'
 // init
 const frame = new Frame()
 
+// settings
+frame.disable('x-powered-by')
+
 // home page (/)
 frame.get('/', (_, res) => {
     return res.send('Hello world!')

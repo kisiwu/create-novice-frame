@@ -1,7 +1,9 @@
 import { DocsShape } from '@novice1/frame';
-import { APP_DESCRIPTION, APP_NAME, APP_VERSION } from '../../config/app';
+import { APP_DESCRIPTION, APP_NAME, APP_VERSION, SCHEMA_PROPERTY } from '../../config/app';
 
 export const docs = new DocsShape()
+    .setOpenAPIOptions({ helperSchemaProperty: SCHEMA_PROPERTY })
+    .setPostmanOptions({ helperSchemaProperty: SCHEMA_PROPERTY })
     .setPath('/docs')
     .setTitle(APP_NAME)
     .setVersion(APP_VERSION)
