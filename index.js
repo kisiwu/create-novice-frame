@@ -22,7 +22,8 @@ const cwd = process.cwd()
 const TEMPLATES_NAMES = [
     'basic',
     'curved',
-    'wide'
+    'wide',
+    'advanced'
 ]
 
 const TEMPLATES = [
@@ -40,6 +41,19 @@ const TEMPLATES = [
         name: 'wide',
         display: 'Wide',
         color: colors.cyan,
+    },
+    {
+        name: 'advanced',
+        display: 'Advanced',
+        color: colors.blue,
+        logLevel: 4,
+        validators: [
+            {
+                name: 'zod',
+                display: 'Zod',
+                color: colors.blue
+            }
+        ]
     }
 ]
 
@@ -60,7 +74,8 @@ const helpMessage = `\
   Available templates:
   ${TEMPLATES[0].color(TEMPLATES[0].name)}
   ${TEMPLATES[1].color(TEMPLATES[1].name)}
-  ${TEMPLATES[2].color(TEMPLATES[2].name)}`
+  ${TEMPLATES[2].color(TEMPLATES[2].name)}
+  ${TEMPLATES[2].color(TEMPLATES[3].name)}`
 
 // prettier-ignore
 const gitignoreContent = `
@@ -158,9 +173,30 @@ web_modules/
 .env.production.local
 .env.local
 
+# parcel-bundler cache (https://parceljs.org/)
+.parcel-cache
+
 # temp and cache directory
 .temp
 .cache
+
+# vitepress build output
+**/.vitepress/dist
+
+# vitepress cache directory
+**/.vitepress/cache
+
+# Docusaurus cache and generated files
+.docusaurus
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
 
 # TernJS port file
 .tern-port
@@ -264,6 +300,8 @@ async function init() {
 
     // 4. Choose a template
     let template = argTemplate
+    let validator = ''
+    let logLevel = 2
     let hasInvalidArgTemplate = false
     if (argTemplate && !TEMPLATES_NAMES.includes(argTemplate)) {
         template = undefined
@@ -286,6 +324,26 @@ async function init() {
         if (prompts.isCancel(templateObj)) return cancel()
 
         template = templateObj.name
+
+        if (typeof templateObj.logLevel === 'number') {
+            logLevel = templateObj.logLevel
+        }
+
+        if (templateObj.validators) {
+            const validatorObj = await prompts.select({
+                message: 'Select a schema validator:',
+                options: templateObj.validators.map((t) => {
+                    const validatorColor = t.color
+                    return {
+                        label: validatorColor(t.display || t.name),
+                        value: t,
+                    }
+                }),
+            })
+            if (prompts.isCancel(validatorObj)) return cancel()
+            
+            validator = validatorObj.name
+        }
     }
 
     const root = path.join(cwd, targetDir)
@@ -303,7 +361,15 @@ async function init() {
     )
 
     // copy template files
-    fs.cpSync(templateDir, root, { recursive: true })
+    if (validator) {
+        const commonsDir = path.resolve(templateDir, 'commons')
+        const validatorDir = path.resolve(templateDir, validator)
+
+        fs.cpSync(commonsDir, root, { recursive: true })
+        fs.cpSync(validatorDir, root, { recursive: true })
+    } else {
+        fs.cpSync(templateDir, root, { recursive: true })
+    }
 
     // create package.json
     const packageJsonContent = {
@@ -322,7 +388,7 @@ async function init() {
         },
         "dependencies": {}
     };
-    if (template === 'wide') {
+    if (template === 'wide' ||  template === 'advanced') {
         packageJsonContent.scripts['test'] = 'kaukau -r ts-node/register -f src --ext .spec.ts'
         packageJsonContent.scripts['test:e2e'] = 'kaukau --require ts-node/register --config test/kaukau-e2e.mjs'
     }
@@ -331,7 +397,7 @@ async function init() {
     // create config files
     let dotenvContent = 'PORT=8080\n'
     if (template != 'basic') {
-        dotenvContent += 'LOG_LEVEL=2\n'
+        dotenvContent += `LOG_LEVEL=${logLevel}\n`
         dotenvContent += 'LOG_DEBUG=\n'
     }
     fs.writeFileSync(path.join(root, '.env'), dotenvContent);
@@ -361,9 +427,15 @@ async function init() {
     }
     let installCommands = `cd ${root} && \
     ${addPkgsCommand} @dotenvx/dotenvx @novice1/api-doc-generator @novice1/frame @novice1/logger @novice1/routing tslib && \
-    ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/cors @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint && \
-    ${addPkgsCommand} joi @novice1/validator-joi`;
-    if (template === 'wide') {
+    ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/cors @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint`;
+    if (validator === 'zod') {
+        installCommands += ` && \
+        ${addPkgsCommand} zod@4.0.0-beta.20250505T195954 @novice1/api-doc-zod-helper @novice1/validator-zod`
+    } else {
+        installCommands += ` && \
+        ${addPkgsCommand} joi @novice1/validator-joi`
+    }
+    if (template === 'wide' || template === 'advanced') {
         installCommands += ` && \
         ${addPkgsCommand} -D @types/chai @types/mocha @types/supertest @types/swagger-ui-express chai eslint-plugin-mocha kaukau supertest`
     }

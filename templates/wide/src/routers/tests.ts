@@ -1,4 +1,5 @@
-import routing, { Request } from '@novice1/routing'
+import routing from '@novice1/routing'
+import { controller } from '@novice1/frame'
 import Joi from 'joi'
 
 const router = routing()
@@ -19,8 +20,10 @@ router.get({
             }
         }
     }
-}, (req: Request<Record<string, never>, string, Record<string, never>, { name: string }>, res) => {
-    return res.send(`Hello ${req.query.name || 'world'}!`)
-})
+},
+    controller<never, string, never, { name?: string }>(
+        async ({ query: { name } }) => `Hello ${name || 'world'}!`
+    )
+)
 
 export default routing().use('/tests', router)

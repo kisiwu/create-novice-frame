@@ -1,10 +1,11 @@
 import routing from '@novice1/routing'
+import { controller } from '@novice1/frame'
 
 // home page (/)
 export default routing().get({
     path: '/',
     name: 'Homepage',
     description: 'Homepage'
-}, (_, res) => {
-    return res.send('Hello world!')
-})
+}, controller(
+    async () => 'Hello world!'
+))

@@ -1,6 +1,9 @@
 list:
     - template wide:
-        - propose validator (-json, -joi)
         - validate property 'schema' @done
         - set helperSchemaProperty='schema' @done
-        - use the right helper depending on the chosen validator (JoiHelper or JsonHelper)
+    - template advanced:
+        - propose validator (+ doc helper)
+            - zod @done
+            - json 
+            - joi
