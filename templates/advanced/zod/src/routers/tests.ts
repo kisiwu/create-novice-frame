@@ -1,5 +1,5 @@
 import routing from '@novice1/routing'
-import * as z from 'zod/v4'
+import { z } from 'zod/v4'
 import { ContextResponseShape, controller, GroupResponseShape, MediaTypeUtil, ResponseUtil } from '@novice1/frame'
 import { badRequestResponse } from '../utils/shapes/responses/errorResponses'
 
