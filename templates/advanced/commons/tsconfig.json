@@ -4,7 +4,7 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "typeRoots": ["node_modules/@types", "src/types"],
-    "module": "CommonJS",
+    "module": "NodeNext",
     "lib": ["DOM", "ES6"],
     "target": "ES6",
     "importHelpers": true,
@@ -24,7 +24,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     // use Node's module resolution algorithm, instead of the legacy TS one
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
     // import JSON files
