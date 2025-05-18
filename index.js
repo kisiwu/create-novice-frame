@@ -433,7 +433,7 @@ async function init() {
         ${addPkgsCommand} zod@next @novice1/api-doc-zod-helper @novice1/validator-zod`
     } else if (validator === 'typebox') {
         installCommands += ` && \
-        ${addPkgsCommand} @sinclair/typebox @novice1/api-doc-typebox-helper @novice1/validator-typebox`
+        ${addPkgsCommand} @sinclair/typebox @novice1/api-doc-json-helper @novice1/validator-typebox`
     } else if (validator === 'ajv') {
         installCommands += ` && \
         ${addPkgsCommand} ajv @novice1/api-doc-json-helper @novice1/validator-json`
