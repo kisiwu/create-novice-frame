@@ -30,7 +30,7 @@ const querySchema: JSONSchemaType<QueryType> = {
             default: 'world',
             pattern: '^(?! *Frank *$).*',
             description: 'Your name (_"Frank"_ is not allowed)',
-            minLength: 3,
+            minLength: 2,
             maxLength: 18
         }
     }
