@@ -1,6 +1,6 @@
 {
   "name": "create-novice-frame",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "description": "Create a new @novice1/frame project",
   "main": "index.js",
