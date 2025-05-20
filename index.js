@@ -49,6 +49,11 @@ const TEMPLATES = [
         logLevel: 4,
         validators: [
             {
+                name: 'ajv',
+                display: 'Ajv',
+                color: colors.green
+            },
+            {
                 name: 'joi',
                 display: 'Joi',
                 color: colors.red
