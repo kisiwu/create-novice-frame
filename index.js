@@ -49,6 +49,11 @@ const TEMPLATES = [
         logLevel: 4,
         validators: [
             {
+                name: 'joi',
+                display: 'Joi',
+                color: colors.red
+            },
+            {
                 name: 'typebox',
                 display: 'TypeBox',
                 color: colors.yellow
