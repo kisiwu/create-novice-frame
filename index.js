@@ -445,7 +445,7 @@ async function init() {
     ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/cors @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint`;
     if (validator === 'zod') {
         installCommands += ` && \
-        ${addPkgsCommand} zod@next @novice1/api-doc-zod-helper @novice1/validator-zod`
+        ${addPkgsCommand} zod @novice1/api-doc-zod-helper @novice1/validator-zod`
     } else if (validator === 'typebox') {
         installCommands += ` && \
         ${addPkgsCommand} @sinclair/typebox @novice1/api-doc-json-helper @novice1/validator-typebox`
