@@ -442,7 +442,7 @@ async function init() {
     }
     let installCommands = `cd ${root} && \
     ${addPkgsCommand} @dotenvx/dotenvx @novice1/api-doc-generator @novice1/frame @novice1/logger @novice1/routing tslib && \
-    ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin-js @types/cors @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint`;
+    ${addPkgsCommand} -D @eslint/eslintrc @eslint/js @stylistic/eslint-plugin @types/cors @types/express @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint@9 globals nodemon ts-node typescript typescript-eslint`;
     if (validator === 'zod') {
         installCommands += ` && \
         ${addPkgsCommand} zod @novice1/api-doc-zod-helper @novice1/validator-zod`

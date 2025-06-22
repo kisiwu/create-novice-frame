@@ -6,7 +6,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
-import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylisticJs from '@stylistic/eslint-plugin'
 import mochaPlugin from 'eslint-plugin-mocha'
 
 const __filename = fileURLToPath(import.meta.url);
