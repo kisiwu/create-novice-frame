@@ -26,6 +26,7 @@ export const frame = new Frame({
 })
 
 frame
+    .set('query parser', 'extended') // extended query parser based on qs 
     .use(httpNotFound) // 404
     .useError(httpError) // 500
     .disable('x-powered-by')

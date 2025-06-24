@@ -6,6 +6,7 @@ import { PORT } from './config/app'
 const frame = new Frame()
 
 // settings
+frame.set('query parser', 'extended')
 frame.disable('x-powered-by')
 
 // home page (/)

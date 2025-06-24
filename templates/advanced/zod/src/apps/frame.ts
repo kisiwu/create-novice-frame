@@ -1,4 +1,4 @@
-import { Frame } from '@novice1/frame'
+import { Frame, GenerateComponentsRule } from '@novice1/frame'
 import express from 'express'
 import { validatorZod } from '@novice1/validator-zod'
 import { SCHEMA_PROPERTY } from '../config/app'
@@ -13,7 +13,7 @@ export const frame = new Frame({
         cors: false,
         validators: [
             validatorZod(
-                { },
+                {},
                 validatorOnError,
                 SCHEMA_PROPERTY
             )
@@ -25,7 +25,13 @@ export const frame = new Frame({
 })
 
 frame
+    .set('query parser', 'extended') // extended query parser based on qs 
     .use(express.static('public')) // static files
     .use(httpNotFound) // 404
     .useError(httpError) // 500
     .disable('x-powered-by')
+
+// additional docs configuration
+frame
+    .openapi
+    .setGenerateComponentsRule(GenerateComponentsRule.ifUndefined)

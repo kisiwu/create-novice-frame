@@ -25,6 +25,7 @@ export const frame = new Frame({
 })
 
 frame
+    .set('query parser', 'extended') // extended query parser based on qs 
     .use(express.static('public')) // static files
     .use(httpNotFound) // 404
     .useError(httpError) // 500
