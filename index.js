@@ -315,16 +315,19 @@ async function init() {
 
     // 4. Choose a template
     let template = argTemplate
+    let templateObj;
     let validator = ''
     let logLevel = 2
     let hasInvalidArgTemplate = false
     if (argTemplate && !TEMPLATES_NAMES.includes(argTemplate)) {
         template = undefined
         hasInvalidArgTemplate = true
+    } else {
+        templateObj = TEMPLATES.find(t => t.name === template)
     }
 
-    if (!template) {
-        const templateObj = await prompts.select({
+    if (!templateObj) {
+        templateObj = await prompts.select({
             message: hasInvalidArgTemplate
                 ? `"${argTemplate}" isn't a valid template. Please choose from below: `
                 : 'Select a template:',
@@ -339,26 +342,26 @@ async function init() {
         if (prompts.isCancel(templateObj)) return cancel()
 
         template = templateObj.name
+    }
 
-        if (typeof templateObj.logLevel === 'number') {
-            logLevel = templateObj.logLevel
-        }
+    if (typeof templateObj.logLevel === 'number') {
+        logLevel = templateObj.logLevel
+    }
 
-        if (templateObj.validators) {
-            const validatorObj = await prompts.select({
-                message: 'Select a schema validator:',
-                options: templateObj.validators.map((t) => {
-                    const validatorColor = t.color
-                    return {
-                        label: validatorColor(t.display || t.name),
-                        value: t,
-                    }
-                }),
-            })
-            if (prompts.isCancel(validatorObj)) return cancel()
-            
-            validator = validatorObj.name
-        }
+    if (templateObj.validators) {
+        const validatorObj = await prompts.select({
+            message: 'Select a schema validator:',
+            options: templateObj.validators.map((t) => {
+                const validatorColor = t.color
+                return {
+                    label: validatorColor(t.display || t.name),
+                    value: t,
+                }
+            }),
+        })
+        if (prompts.isCancel(validatorObj)) return cancel()
+
+        validator = validatorObj.name
     }
 
     const root = path.join(cwd, targetDir)

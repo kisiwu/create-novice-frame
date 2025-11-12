@@ -21,6 +21,7 @@ export const badRequestSchema = new SchemaShape('BadRequestSchema', {
             type: 'string'
         }
     },
+    additionalProperties: true,
     required: [
         'message',
         'label'

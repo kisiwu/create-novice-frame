@@ -146,3 +146,7 @@ body,
 .swagger-ui .opblock.opblock-get {
     background: #04a5e529;
 }
+.swagger-ui .json-schema-2020-12-accordion,
+.json-schema-2020-12-expand-deep-button {
+    background: #dadde3;
+}
